@@ -131,28 +131,28 @@ print('f(%s) = %f' % (decoded, score))
 #przy czym 
 #gdy a > 0 to zachodzi minimum
 #gdy a < 0 to zachodzi maksimum
-# https://stackoverflow.com/questions/41047229/genetic-algorithm-to-solve-a-quadratic-equation
-# https://rocreguant.com/roulette-wheel-selection-python/2019/
-
-def fitness(x):
-	return a*x**2 + b*x + c
-
-
-
-
-import numpy as np
-
-def roulette_wheel_selection(population):
-  
-    # Computes the totallity of the population fitness
-    god_pop_fitness = sum([fitness(pop) for pop in god_pop])
-    
-    # Computes for each chromosome the probability 
-    pop_probabilities = [chromosome.fitness/population_fitness for chromosome in population]
-    
-    # Selects one chromosome based on the computed probabilities
-    return np.random.choice(population,size=len(pop), p=chromosome_probabilities)
-
-
- 'a'int translacja -> int pop_fitness -> array propabilty -> selekcja -> cross(selekcja(pop), selekcja(pop))  /
--> mutation -> nextgeneration -> pop = nextgeneration.copy -> repeat from a   
+# # https://stackoverflow.com/questions/41047229/genetic-algorithm-to-solve-a-quadratic-equation
+# # https://rocreguant.com/roulette-wheel-selection-python/2019/
+#
+# def fitness(x):
+# 	return a*x**2 + b*x + c
+#
+#
+#
+#
+# import numpy as np
+#
+# def roulette_wheel_selection(population):
+#
+#     # Computes the totallity of the population fitness
+#     god_pop_fitness = sum([fitness(pop) for pop in god_pop])
+#
+#     # Computes for each chromosome the probability
+#     pop_probabilities = [chromosome.fitness/population_fitness for chromosome in population]
+#
+#     # Selects one chromosome based on the computed probabilities
+#     return np.random.choice(population,size=len(pop), p=chromosome_probabilities)
+#
+#
+#  'a'int translacja -> int pop_fitness -> array propabilty -> selekcja -> cross(selekcja(pop), selekcja(pop))  /
+# -> mutation -> nextgeneration -> pop = nextgeneration.copy -> repeat from a

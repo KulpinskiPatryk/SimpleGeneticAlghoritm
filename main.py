@@ -43,12 +43,12 @@ def mut(r, mutation_point):
 def best_specimen(pop, a, b, c):
     # Utworzenie listy z przystosowaniem
     pop_fitneses = []
-    for sub in range(n_pop):
+    for sub in range(ile_os):
         pop_fitneses.append(fitness(translate(pop[sub]), a, b, c))
     og = translate(pop[0])
     og_val = fitness(og, a, b, c)
     # Znalezienie najlepszego osobnika
-    for sub in range(n_pop):
+    for sub in range(ile_os):
         if pop_fitneses[sub] > og:
             og = translate(pop[sub])
             og_val = pop_fitneses[sub]
@@ -107,13 +107,20 @@ def genetic_algorithm(iteration, n_pop, cross_point, mutation_point, a, b, c):
     return over_best, over_score
 
 
-n_pop = 2
-n_int = 2
-cross_point = 0.9
-mutation_point = 0.1
-a = 1
-b = 1
-c = 1
-best, score = genetic_algorithm(n_int, n_pop, cross_point, mutation_point, a, b, c)
-print("Wynik : ")
-print('f(' + str(best) + ') = ' + str(score))
+ile_wyn = 40
+ile_os = 10
+lb_pop = 4
+pr_krzyz = 0.9
+pr_mut = 0.1
+a = 4
+b = 7
+c = 2
+if lb_pop * ile_os <= 150:
+    for i in range(ile_wyn):
+        best, score = genetic_algorithm(lb_pop, ile_os, pr_krzyz, pr_mut, a, b, c)
+        print("Wynik : ")
+        print('f(' + str(best) + ') = ' + str(score))
+else:
+    print('Nie wlasciwe dane')
+
+# Dodać nie ujemne liczzzbby test XD
