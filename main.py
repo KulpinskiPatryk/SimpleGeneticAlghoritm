@@ -2,6 +2,7 @@ import numpy.random
 from numpy.random import choice as law
 from numpy.random import randint as randint
 import random
+import sys
 
 
 # Translacja z systemu dwójkowego na system dziesiątkowy
@@ -14,10 +15,15 @@ def translate(v):
 
 # Funkcja Przystosowania czyli funkcja kwadratowa
 def fitness(x, a, b, c):
-    return a * x ** 2 + b * x + c
+    result = a * x ** 2 + b * x + c
+    if result > 0 :
+        return result
+    elif result < 0:
+        result = result - result
+        return result
 
 
-# Krzyżowanie Kopjujemy wartości by utworzyć pomocnicze tablice dzielimy je i wpisujemy do początkowych tablic
+    # Krzyżowanie Kopjujemy wartości by utworzyć pomocnicze tablice dzielimy je i wpisujemy do początkowych tablic
 # by utworzyć dzieci
 def crossover(r1, r2, cross_point):
     p1 = r1.copy()
@@ -69,8 +75,8 @@ def genetic_algorithm(iteration, n_pop, cross_point, mutation_point, a, b, c):
     # Wykożystanie pierwszego osobnika jako najlepszego
     best = translate(pop[0])
     best_val = fitness(best, a, b, c)
-    print('f(' + str(best) + ') = ' + str(best_val))
-    print('Działanie Programu: ')
+    #print('Działanie Programu: ')
+    #print('f(' + str(best) + ') = ' + str(best_val))
     # Rozpoczęcie algorytmu
     for gen in range(iteration):
         # Całkowita suma przystosowania
@@ -102,25 +108,26 @@ def genetic_algorithm(iteration, n_pop, cross_point, mutation_point, a, b, c):
             children.append(p1)
             children.append(p2)
         pop = children.copy()
-        print(pop)
     over_best, over_score = best_specimen(pop, a, b, c)
     return over_best, over_score
 
 
 ile_wyn = 40
 ile_os = 10
-lb_pop = 4
+lb_pop = 10
 pr_krzyz = 0.9
-pr_mut = 0.1
+pr_mut = 0.2
 a = 4
 b = 7
 c = 2
-if lb_pop * ile_os <= 150:
-    for i in range(ile_wyn):
-        best, score = genetic_algorithm(lb_pop, ile_os, pr_krzyz, pr_mut, a, b, c)
-        print("Wynik : ")
-        print('f(' + str(best) + ') = ' + str(score))
-else:
-    print('Nie wlasciwe dane')
 
-# Dodać nie ujemne liczzzbby test XD
+with open('wyniki.txt', 'w') as f:
+    sys.stdout = f
+    if lb_pop * ile_os <= 150:
+        for i in range(ile_wyn):
+            best, score = genetic_algorithm(lb_pop, ile_os, pr_krzyz, pr_mut, a, b, c)
+            #print("Wynik : ")
+            sys.stdout = f
+            print('f(' + str(best) + ') = ' + str(score))
+    else:
+        print('Nie wlasciwe dane')
