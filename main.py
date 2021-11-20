@@ -16,14 +16,14 @@ def translate(v):
 # Funkcja Przystosowania czyli funkcja kwadratowa
 def fitness(x, a, b, c):
     result = a * x ** 2 + b * x + c
-    if result > 0 :
+    if result > 0:
         return result
     elif result < 0:
         result = result - result
         return result
 
 
-    # Krzyżowanie Kopjujemy wartości by utworzyć pomocnicze tablice dzielimy je i wpisujemy do początkowych tablic
+# Krzyżowanie Kopjujemy wartości by utworzyć pomocnicze tablice dzielimy je i wpisujemy do początkowych tablic
 # by utworzyć dzieci
 def crossover(r1, r2, cross_point):
     p1 = r1.copy()
@@ -83,43 +83,39 @@ def genetic_algorithm(iteration, n_pop, cross_point, mutation_point, a, b, c):
         pop_fitness = 0
         for sub in range(n_pop):
             pop_fitness = pop_fitness + fitness(translate(pop[sub]), a, b, c)
-        # Utworzenie listy z poziomem przystosowania
-        pop_probabilities = []
-        for sub in range(n_pop):
-            pop_probabilities.append(fitness(translate(pop[sub]), a, b, c) / pop_fitness)
-        # Utworzenie listy z przystosowaniem
-        pop_fitneses = []
-        for sub in range(n_pop):
-            pop_fitneses.append(fitness(translate(pop[sub]), a, b, c))
-        # Znalezienie najlepszego osobnika
-        for sub in range(n_pop):
-            if pop_fitneses[sub] > best_val:
-                best = translate(pop[sub])
-                best_val = pop_fitneses[sub]
-        selected = []
-        for sub in range(n_pop):
-            selected.append(law(numbered_list, p=pop_probabilities))
-        children = []
-        for i in range(0, n_pop, 2):
-            p1, p2 = pop[selected[i]], pop[selected[i + 1]]
-            p1, p2 = crossover(p1, p2, cross_point)
-            mut(p1, mutation_point)
-            mut(p2, mutation_point)
-            children.append(p1)
-            children.append(p2)
-        pop = children.copy()
+        if pop_fitness != 0:
+            # Utworzenie listy z poziomem przystosowania
+            pop_probabilities = []
+            for sub in range(n_pop):
+                pop_probabilities.append(fitness(translate(pop[sub]), a, b, c) / pop_fitness)
+            # Utworzenie listy z przystosowaniem
+            pop_fitneses = []
+            for sub in range(n_pop):
+                pop_fitneses.append(fitness(translate(pop[sub]), a, b, c))
+            selected = []
+            for sub in range(n_pop):
+                selected.append(law(numbered_list, p=pop_probabilities))
+            children = []
+            for i in range(0, n_pop, 2):
+                p1, p2 = pop[selected[i]], pop[selected[i + 1]]
+                p1, p2 = crossover(p1, p2, cross_point)
+                mut(p1, mutation_point)
+                mut(p2, mutation_point)
+                children.append(p1)
+                children.append(p2)
+            pop = children.copy()
     over_best, over_score = best_specimen(pop, a, b, c)
     return over_best, over_score
 
 
 ile_wyn = 40
 ile_os = 10
-lb_pop = 10
+lb_pop = 14
 pr_krzyz = 0.9
-pr_mut = 0.2
-a = 4
-b = 7
-c = 2
+pr_mut = 0.01
+a = -1
+b = 80
+c = -12
 
 with open('wyniki.txt', 'w') as f:
     sys.stdout = f
@@ -128,6 +124,6 @@ with open('wyniki.txt', 'w') as f:
             best, score = genetic_algorithm(lb_pop, ile_os, pr_krzyz, pr_mut, a, b, c)
             #print("Wynik : ")
             sys.stdout = f
-            print('f(' + str(best) + ') = ' + str(score))
+            print(str(best) + ' ' + str(score))
     else:
         print('Nie wlasciwe dane')
